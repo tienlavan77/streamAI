@@ -33,10 +33,34 @@ chrome.runtime.onMessage.addListener((message) => {
   }
 });
 
+// Phân tích Markdown fenced code block và lấy ngôn ngữ khai báo sau dấu ```/~~~.
+function analyzeMessage(message) {
+  const text = typeof message === 'string' ? message : '';
+  const codeBlocks = [];
+  const fencePattern = /(^|\n)[ \t]*(```|~~~)[ \t]*([^\n]*)\n([\s\S]*?)(?:\n|^)\s*\2[ \t]*(?=\n|$)/g;
+  let match;
+
+  while ((match = fencePattern.exec(text)) !== null) {
+    const info = match[3].trim();
+    // Chỉ lấy token đầu tiên, ví dụ "javascript {title=app}" -> "javascript".
+    const language = info.split(/[\s{]/, 1)[0] || null;
+    codeBlocks.push({
+      language,
+      code: match[4].replace(/\n$/, ''),
+    });
+  }
+
+  return { text, codeBlocks };
+}
+
 function saveViaNativeMessaging(text) {
   chrome.runtime.sendNativeMessage(
     'com.tinsinhphat.chatblock_extractor',
-    { action: 'save', content: text },
+    {
+      action: 'save',
+      content: text,
+      analysis: analyzeMessage(text),
+    },
     () => {
       if (chrome.runtime.lastError) {
         console.error('Native messaging lỗi:', chrome.runtime.lastError);
