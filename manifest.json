@@ -1,0 +1,23 @@
+{
+  "manifest_version": 3,
+  "name": "Capturer AI Response",
+  "version": "1.0",
+  "description": "Captures AI responses from ChatGPT and Claude.ai and sends them to a native application for processing.",
+  "permissions": ["storage", "nativeMessaging"],
+  "content_scripts": [
+    {
+      "matches": ["https://chatgpt.com/*", "https://claude.ai/*"],
+      "js": ["interceptor.js"],
+      "world": "MAIN",
+      "run_at": "document_start"
+    },
+    {
+      "matches": ["https://chatgpt.com/*", "https://claude.ai/*"],
+      "js": ["ui-panel.js", "bridge.js"],
+      "run_at": "document_start"
+    }
+  ],
+  "background": {
+    "service_worker": "background.js"
+  }
+}
