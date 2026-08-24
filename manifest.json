@@ -1,0 +1,24 @@
+{
+  "manifest_version": 3,
+  "name": "AI Response Capturer",
+  "version": "1.0.0",
+  "description": "Bắt luồng phản hồi streaming từ ChatGPT và Claude.ai, tách code block, gửi về server local để lưu trữ.",
+  "permissions": ["storage"],
+  "host_permissions": ["http://localhost/*", "http://127.0.0.1/*"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://chatgpt.com/*", "https://claude.ai/*"],
+      "js": ["interceptor.js"],
+      "world": "MAIN",
+      "run_at": "document_start"
+    },
+    {
+      "matches": ["https://chatgpt.com/*", "https://claude.ai/*"],
+      "js": ["ui-panel.js", "bridge.js"],
+      "run_at": "document_start"
+    }
+  ]
+}
