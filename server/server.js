@@ -59,6 +59,10 @@ async function appendToDb(record) {
   await fs.writeFile(DB_FILE, JSON.stringify(db, null, 2), 'utf-8');
 }
 
+app.get('/', (req, res) => {
+  res.json({ status: 'ok', message: 'AI Capturer server đang hoạt động' });
+});
+
 app.post('/api/save-conversation', async (req, res) => {
   try {
     const { requestId, source, url, rawText, codeBlocks, capturedAt } = req.body;
