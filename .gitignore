@@ -1,9 +1,12 @@
 node_modules/
+.pnpm-store/
 .env
 .env.*
 !.env.example
 dist/
 build/
+server/output/
+server/conversations.json
 *.log
 *.tmp
 .DS_Store
