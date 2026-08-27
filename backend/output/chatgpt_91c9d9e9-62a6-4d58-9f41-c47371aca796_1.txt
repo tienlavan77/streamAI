@@ -1,0 +1,14 @@
+Profile Manager
+      │
+      ├── Profile A
+      │     └── Browser Context A
+      │
+      ├── Profile B
+      │     └── Browser Context B
+      │
+      └── Profile C
+            └── Browser Context C
+
+Browser Controller
+      │
+      └── thao tác UI / đọc DOM

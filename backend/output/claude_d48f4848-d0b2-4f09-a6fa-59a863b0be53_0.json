@@ -1,0 +1,18 @@
+{
+  "id": "FORGE-DEBUG-015",
+  "project_id": "PROJECT-NODEFORGE",
+  "roadmap_id": "ROADMAP-NODEFORGE",
+  "sprint_id": "SPRINT-FORGE-STREAM-003",
+  "title": "Xác nhận kiến trúc đúng để mở rộng SSE (Project Log reader vs eventSink cũ)",
+  "objective": "Trước khi vá SSE để phát execution/git/verification event real-time, cần xác nhận: SSE nên đọc mở rộng từ Project Log reader (đã có conversation_id đầy đủ từ FORGE-LOG-001e/f/g) hay từ đường eventSink/internalBus cũ (đang thiếu conversation_id).",
+  "acceptance_criteria": [
+    "Xác nhận cơ chế SSE-từ-Project-Log đã xây ở FORGE-LOG-001i hiện đang hoạt động thế nào — nó tail project.log real-time, hay chỉ phục vụ replay lúc kết nối lại?",
+    "Nếu SSE-từ-Project-Log có thể tail real-time — xác nhận đây là con đường nên mở rộng (thêm execution.*/verification.*/git.*/index. vào allowlist loại event được đẩy qua SSE), KHÔNG cần vá lại eventSink cũ song song.",
+    "Nếu SSE-từ-Project-Log chỉ phục vụ replay (không real-time tail) — báo cáo rõ, đây sẽ cần thiết kế thêm (watch file changes) trước khi làm ticket chính.",
+    "Xác nhận: nếu dùng đường Project Log, conversation_id đã đủ sẵn không cần vá gì thêm ở execution-layer.js/start-control-api.mjs (khác với giả định ban đầu của tôi).",
+    "Không code gì trong ticket này — chỉ xác nhận kiến trúc, báo cáo rõ ràng."
+  ],
+  "priority": "high",
+  "dependencies": [],
+  "provenance": {"source": "project_owner", "source_id": "FORGE-DEBUG-015", "created_at": "2026-08-24T11:35:00Z"}
+}

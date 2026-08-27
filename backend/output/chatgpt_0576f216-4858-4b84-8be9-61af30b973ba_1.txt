@@ -1,0 +1,14 @@
+                ┌───────────────┐
+                │   AI Web #1   │
+                │  conversation │
+                └───────┬───────┘
+                        │ stream
+                        ▼
+                 ┌─────────────┐
+                 │     Node    │
+                 │   Manager   │
+                 └──────┬──────┘
+                        │
+             ┌──────────┼──────────┐
+             ▼          ▼          ▼
+          Profile A  Profile B  Profile C

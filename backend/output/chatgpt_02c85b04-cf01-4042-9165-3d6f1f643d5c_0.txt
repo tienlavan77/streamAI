@@ -1,0 +1,17 @@
+                    AI Web / Stream
+                          │
+                    realtime events
+                          │
+                          ▼
+                ┌──────────────────┐
+                │       NODE       │
+                │ Profile Manager  │
+                └────────┬─────────┘
+                         │
+          ┌──────────────┼──────────────┐
+          ▼              ▼              ▼
+      Profile A      Profile B      Profile C
+          │              │              │
+       context        context        context
+       config         config         config
+       state          state          state

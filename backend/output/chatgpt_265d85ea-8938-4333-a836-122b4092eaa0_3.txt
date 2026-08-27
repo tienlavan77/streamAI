@@ -1,0 +1,7 @@
+GET /
+   ↓
+server.js
+   ↓
+app/routes/index.js
+   ↓
+response

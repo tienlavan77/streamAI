@@ -1,0 +1,19 @@
+{
+  "id": "FORGE-UI-041",
+  "project_id": "PROJECT-NODEFORGE",
+  "roadmap_id": "ROADMAP-NODEFORGE",
+  "sprint_id": "SPRINT-FORGE-UI-037-039",
+  "title": "Báo cáo tổng kết sprint khi toàn bộ ticket trong sprint hoàn tất",
+  "objective": "Hiện chỉ có tóm tắt từng ticket riêng lẻ (FORGE-UI-040). Cần thêm báo cáo tổng hợp cho cả 1 sprint khi tất cả ticket trong đó đã done/failed — giúp owner nhìn tổng quan kết quả sprint mà không phải xem từng ticket một.",
+  "acceptance_criteria": [
+    "Khi sprint chuyển trạng thái done (tất cả ticket trong sprint đã kết thúc — done hoặc failed), UI tự hiển thị báo cáo tổng kết: tổng số ticket, số done, số failed, danh sách file đã thay đổi (gộp từ tất cả ticket), danh sách commit.",
+    "Với ticket failed trong sprint, liệt kê rõ lý do (tận dụng dữ liệu đã có từ FORGE-UI-040).",
+    "Dữ liệu lấy từ Project Log/History API (theo sprint_id) — không cần nguồn mới.",
+    "Báo cáo hiển thị dạng tóm tắt dễ đọc, không phải JSON thô.",
+    "Test: mô phỏng 1 sprint có cả ticket done và failed — xác nhận báo cáo tổng kết hiện đúng, đầy đủ.",
+    "Chạy đủ 5 gate: validate:schemas, lint, typecheck, build:web, git diff --check."
+  ],
+  "priority": "medium",
+  "dependencies": [],
+  "provenance": {"source": "project_owner", "source_id": "FORGE-UI-041", "created_at": "2026-08-24T12:20:00Z"}
+}

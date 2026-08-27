@@ -1,0 +1,9 @@
+Node
+ ↓
+Playwright
+ ↓
+Local AI Web / mock Claude UI
+ ↓
+stream
+ ↓
+Node

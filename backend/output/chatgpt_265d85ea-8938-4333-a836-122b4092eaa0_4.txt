@@ -1,0 +1,9 @@
+app/
+├── routes/
+│   ├── index.js
+│   └── conversation.js
+│
+├── controllers/
+├── services/
+├── repositories/
+└── models/

@@ -1,0 +1,14 @@
+AI Web
+  │
+  ├── user message
+  ├── AI streaming chunks
+  ├── completion
+  └── conversation events
+          │
+          ▼
+        Node
+          │
+          ├── normalize
+          ├── associate → profile
+          ├── persist
+          └── emit realtime

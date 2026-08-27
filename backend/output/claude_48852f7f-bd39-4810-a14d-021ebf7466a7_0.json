@@ -1,0 +1,19 @@
+{
+  "id": "FORGE-OPS-019",
+  "project_id": "PROJECT-NODEFORGE",
+  "roadmap_id": "ROADMAP-NODEFORGE",
+  "sprint_id": "SPRINT-FORGE-OPS-019",
+  "title": "KHẨN: Khôi phục giao diện — CSS mất hoàn toàn dù đã revert trước đó",
+  "objective": "Sau khi revert FORGE-UI-037B (commit f82a0f0), giao diện vẫn hiển thị hoàn toàn không có CSS (chỉ HTML thô). Cần xác định nguyên nhân thật và khôi phục đúng giao diện gốc trước khi có bất kỳ thay đổi UI nào của sprint này.",
+  "acceptance_criteria": [
+    "Kiểm tra trực tiếp trên VPS: web/src/styles.css hiện có nội dung gì, có đúng là bản trước FORGE-UI-037B không (so sánh với git log trước commit a4cbf3c).",
+    "Kiểm tra build:web có thực sự chạy thành công và sinh đúng file CSS trong web/dist/ không — có thể build 'pass' nhưng output rỗng/lỗi đường dẫn.",
+    "Kiểm tra web/index.html có đúng link/import tới file CSS đã build không.",
+    "Nếu cần, revert/checkout web/src/styles.css về đúng commit trước khi bất kỳ ticket FORGE-UI-037* nào chạy (tìm commit gần nhất trước a4cbf3c).",
+    "Build lại, deploy lại, xác nhận bằng cách tự tải trang UI thật (không chỉ HTTP 200) và xác nhận có CSS hiển thị đúng.",
+    "Báo cáo nguyên nhân chính xác tại sao revert trước đó (f82a0f0) không khôi phục được giao diện hiển thị đúng."
+  ],
+  "priority": "high",
+  "dependencies": [],
+  "provenance": {"source": "project_owner", "source_id": "FORGE-OPS-019", "created_at": "2026-08-24T11:00:00Z"}
+}

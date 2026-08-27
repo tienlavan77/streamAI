@@ -1,0 +1,16 @@
+
+thì phần **Node tự động đọc/lấy stream Output từ ChatGPT Web** không phải use case mà Terms hiện tại cho phép. Đặc biệt, việc intercept network stream để lấy output tự động sẽ khó coi là chỉ “điều khiển browser như người dùng”; nó đi vào vùng **programmatic extraction**. citeturn0search1
+
+### Có một hướng sạch hơn
+
+Nếu mục tiêu thật sự của bạn là:
+
+> **Node quản lý nhiều profile       Profile A B       C
+          │       │       │
+          └───────┼───────┘
+                  ▼
+             OpenAI API
+                  │
+              streaming
+                  ▼
+                 Node

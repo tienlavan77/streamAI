@@ -1,0 +1,9 @@
+#path app/services/ConversationService.js #path
+#code
+const result = await fileService.write(
+   filePath,
+   block.code
+);
+
+console.log(result);
+#code

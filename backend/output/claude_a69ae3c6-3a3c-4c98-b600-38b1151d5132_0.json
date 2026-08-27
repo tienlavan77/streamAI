@@ -1,0 +1,21 @@
+{
+  "id": "FORGE-STREAM-003",
+  "project_id": "PROJECT-NODEFORGE",
+  "roadmap_id": "ROADMAP-NODEFORGE",
+  "sprint_id": "SPRINT-FORGE-STREAM-003",
+  "title": "Mở rộng SSE: phát execution/git/verification/index events real-time + tóm tắt trên UI",
+  "objective": "Kết hợp 2 nguồn đã xác nhận ở FORGE-DEBUG-015: giữ Project Log làm nguồn replay (đã đủ conversation_id), bổ sung conversation_id vào lớp ghi log/unified stream để cùng lúc phát đúng metadata cho real-time fan-out qua eventSink/internalBus, rồi mở filter SSE cho các loại event execution/git/verification/index. UI hiển thị dạng tóm tắt từng bước lớn (kiểu Claude app), có thể mở rộng xem chi tiết.",
+  "acceptance_criteria": [
+    "Tại điểm gọi logEvent() trong execution-layer.js (dòng 37, nơi phát event realtime node.execution_step) và start-control-api.mjs:212 (node.command_result) — bổ sung conversation_id vào chính event/payload gửi qua eventSink/internalBus, lấy từ cùng context đã có sẵn (đã dùng để gọi logEvent() thành công).",
+    "KHÔNG xây file tailer độc lập cho Project Log — theo đúng khuyến nghị rủi ro thấp hơn của FORGE-DEBUG-015: phát live ngay tại lớp ghi log/unified stream.",
+    "Sửa isProjectLogEvent() trong conversation-stream.js: loại các event execution.*, verification.*, git.*, index.*, node.execution_step, node.command, node.command_result khỏi bộ lọc chặn SSE (cho cả live subscription và replay), miễn là event có conversation_id hợp lệ.",
+    "UI chat hiển thị các event này dưới dạng bước tóm tắt gọn theo nhóm (vd 'Đang kiểm tra checksum...', 'Đang áp dụng thay đổi...', 'Đang commit...', 'Hoàn tất') — có thể bấm mở rộng xem chi tiết kỹ thuật thô (event_name, payload đầy đủ) — không đổ JSON nguyên văn mặc định.",
+    "Test: dispatch 1 ticket unified-diff, xác nhận UI chat hiện real-time đầy đủ các bước từ dispatch tới done, đúng thứ tự (dùng sequence từ FORGE-LOG-001i0).",
+    "Test: reconnect SSE giữa chừng — xác nhận replay từ Project Log vẫn hiển thị đúng các bước đã qua, không thiếu.",
+    "Regression: SSE ordering (FORGE-STREAM-001e) và cursor/replay (FORGE-STREAM-002) vẫn hoạt động đúng với khối lượng event tăng thêm; conversation hội thoại (agent.text_stream, builder.message.*) không bị ảnh hưởng.",
+    "Chạy đủ 5 gate: validate:schemas, lint, typecheck, build:web, git diff --check."
+  ],
+  "priority": "high",
+  "dependencies": [],
+  "provenance": {"source": "project_owner", "source_id": "FORGE-STREAM-003", "created_at": "2026-08-24T11:50:00Z"}
+}

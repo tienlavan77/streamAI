@@ -1,0 +1,19 @@
+{
+  "id": "FORGE-STREAM-003a",
+  "project_id": "PROJECT-NODEFORGE",
+  "roadmap_id": "ROADMAP-NODEFORGE",
+  "sprint_id": "SPRINT-FORGE-STREAM-003",
+  "title": "Bổ sung conversation_id vào event realtime (execution_step, command_result)",
+  "objective": "Event realtime node.execution_step (execution-layer.js:37) và node.command_result (start-control-api.mjs:212) hiện thiếu conversation_id trong payload gửi qua eventSink/internalBus, dù logEvent() ở cùng vị trí đã có đủ. Bổ sung để các event này định tuyến đúng conversation khi phát live.",
+  "acceptance_criteria": [
+    "Tại execution-layer.js:37, thêm conversation_id vào event object (lấy từ context.conversation_id — cùng nguồn đã dùng để gọi logEvent() thành công).",
+    "Tại start-control-api.mjs:212, thêm conversation_id vào node.command_result tương tự.",
+    "KHÔNG đổi cấu trúc payload khác, không đổi logic execution/git.",
+    "Test: mô phỏng phát event, xác nhận conversation_id có mặt và đúng giá trị.",
+    "Regression: 41+ test Execution Layer, Project Log tests hiện có vẫn pass.",
+    "Chạy đủ 5 gate."
+  ],
+  "priority": "high",
+  "dependencies": [],
+  "provenance": {"source": "project_owner", "source_id": "FORGE-STREAM-003a", "created_at": "2026-08-24T12:00:00Z"}
+}

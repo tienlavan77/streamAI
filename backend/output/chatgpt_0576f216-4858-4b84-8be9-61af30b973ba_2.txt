@@ -1,0 +1,7 @@
+Profile A
+├── browser/session
+├── conversation
+├── incoming stream
+├── outgoing message
+├── metadata
+└── local state

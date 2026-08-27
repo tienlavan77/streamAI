@@ -1,0 +1,7 @@
+Profile
+   │
+   ├── observe conversation
+   ├── send message
+   ├── maintain session
+   ├── collect stream
+   └── expose local API

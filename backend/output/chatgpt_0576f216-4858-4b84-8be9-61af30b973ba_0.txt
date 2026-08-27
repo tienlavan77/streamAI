@@ -1,0 +1,9 @@
+Bạn
+ │
+ ▼
+AI Web bên thứ ba
+ │
+ │  ← cuộc trò chuyện realtime
+ │
+ ▼
+Browser

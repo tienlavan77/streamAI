@@ -1,0 +1,11 @@
+Node
+  │
+  ├── Profile A
+  ├── Profile B
+  └── Profile C
+          │
+          ▼
+   Claude Developer Platform
+          │
+          ▼
+       streaming

@@ -13,6 +13,7 @@ function isExtensionContextValid() {
 }
 
 let contextDead = false;
+let serverEnabled = true;
 
 function safeSendMessage(message) {
   if (contextDead) return;
@@ -32,6 +33,14 @@ function safeSendMessage(message) {
     console.warn('[AI-Capturer] sendMessage lỗi:', err.message);
   }
 }
+
+chrome.storage.local.get({ serverEnabled: true }, ({ serverEnabled: enabled }) => {
+  serverEnabled = enabled;
+});
+
+window.addEventListener('ai-capturer-server-toggle', (event) => {
+  serverEnabled = event.detail?.enabled !== false;
+});
 
 // ================== Chờ UI panel sẵn sàng ==================
 let uiReady = typeof window.AICapturerUI !== 'undefined';
@@ -97,14 +106,25 @@ function extractClaudeDelta(eventType, chunk) {
 
 // ================== Tách code block kèm vị trí trong raw text ==================
 function extractCodeBlocks(markdownText) {
-  const codeBlockRegex = /```(\w*)\n([\s\S]*?)```/g;
+  const fenceRegex = /```([^\n]*)\n([\s\S]*?)```/g;
   const blocks = [];
   let match;
 
-  while ((match = codeBlockRegex.exec(markdownText)) !== null) {
+  while ((match = fenceRegex.exec(markdownText)) !== null) {
+    const language = (match[1].trim() || 'text').toLowerCase();
+    const body = match[2].replace(/\r\n/g, '\n');
+    const pathMatch = body.match(/^#([^#\s].*)\n?/);
+
+    // Each fenced block must start with a path line such as #app/services/FileService.js.
+    if (!pathMatch) continue;
+
+    const path = pathMatch[1].trim();
+    const code = body.slice(pathMatch[0].length).replace(/^\n/, '').replace(/\n$/, '');
+
     blocks.push({
-      language: (match[1] || 'text').toLowerCase(),
-      code: match[2].replace(/\n$/, ''),
+      path,
+      code,
+      language,
       startIndex: match.index,
       endIndex: match.index + match[0].length,
     });
@@ -154,7 +174,7 @@ function handleMessage(event) {
       if (uiReady) window.AICapturerUI.endStream(payload.requestId, { codeBlockCount: codeBlocks.length });
 
       // Chỉ gửi lên server khi thực sự có nội dung — tránh spam các request phụ/lỗi rỗng
-      if (rawText.trim()) {
+      if (rawText.trim() && serverEnabled) {
         safeSendMessage({
           type: 'conversation-captured',
           payload: {

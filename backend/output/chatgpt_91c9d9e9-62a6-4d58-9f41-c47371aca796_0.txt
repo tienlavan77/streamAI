@@ -1,0 +1,17 @@
+                 Node
+                  │
+          Browser Controller
+                  │
+                  ▼
+        ┌──────────────────┐
+        │   Browser Page   │
+        │   AI Web Chat    │
+        └────────┬─────────┘
+                 │
+       ┌─────────┴─────────┐
+       ▼                   ▼
+   User input           AI stream
+       │                   │
+       └─────────┬─────────┘
+                 ▼
+              Node

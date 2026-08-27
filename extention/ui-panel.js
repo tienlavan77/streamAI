@@ -5,6 +5,7 @@ const AICapturerUI = (() => {
   let panelEl = null;
   let contentEl = null;
   let statusEl = null;
+  let serverEnabled = true;
   const streamBuffers = new Map(); // requestId -> accumulated text
 
   function injectPanel() {
@@ -18,6 +19,7 @@ const AICapturerUI = (() => {
         <div>
           <button id="ai-capturer-clear" title="Xóa">🗑</button>
           <button id="ai-capturer-copy" title="Copy">📋</button>
+          <button id="ai-capturer-server" title="Gửi dữ liệu về server">Server: ON</button>
           <button id="ai-capturer-toggle" title="Thu gọn">—</button>
         </div>
       </div>
@@ -30,6 +32,7 @@ const AICapturerUI = (() => {
 
     injectStyles();
     bindControls();
+    loadServerState();
     makeDraggable(panelEl, panelEl.querySelector('#ai-capturer-header'));
   }
 
@@ -80,6 +83,7 @@ const AICapturerUI = (() => {
         margin-left: 6px;
       }
       #ai-capturer-header button:hover { color: #fff; }
+      #ai-capturer-server.off { color: #f87171; }
       #ai-capturer-content {
         margin: 0;
         padding: 10px;
@@ -95,6 +99,20 @@ const AICapturerUI = (() => {
     document.documentElement.appendChild(style);
   }
 
+  function updateServerButton() {
+    const button = panelEl?.querySelector('#ai-capturer-server');
+    if (!button) return;
+    button.textContent = `Server: ${serverEnabled ? 'ON' : 'OFF'}`;
+    button.classList.toggle('off', !serverEnabled);
+  }
+
+  function loadServerState() {
+    chrome.storage.local.get({ serverEnabled: true }, ({ serverEnabled: enabled }) => {
+      serverEnabled = enabled;
+      updateServerButton();
+    });
+  }
+
   function bindControls() {
     panelEl.querySelector('#ai-capturer-clear').onclick = () => {
       streamBuffers.clear();
@@ -103,6 +121,15 @@ const AICapturerUI = (() => {
 
     panelEl.querySelector('#ai-capturer-copy').onclick = () => {
       navigator.clipboard.writeText(contentEl.textContent);
+    };
+
+    panelEl.querySelector('#ai-capturer-server').onclick = () => {
+      serverEnabled = !serverEnabled;
+      chrome.storage.local.set({ serverEnabled });
+      updateServerButton();
+      window.dispatchEvent(new CustomEvent('ai-capturer-server-toggle', {
+        detail: { enabled: serverEnabled },
+      }));
     };
 
     panelEl.querySelector('#ai-capturer-toggle').onclick = () => {

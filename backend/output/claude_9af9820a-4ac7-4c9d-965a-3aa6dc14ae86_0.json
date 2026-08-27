@@ -1,0 +1,20 @@
+{
+  "id": "FORGE-STREAM-003b",
+  "project_id": "PROJECT-NODEFORGE",
+  "roadmap_id": "ROADMAP-NODEFORGE",
+  "sprint_id": "SPRINT-FORGE-STREAM-003",
+  "title": "Mở filter SSE cho execution/git/verification/index events (live + replay)",
+  "objective": "Sau khi FORGE-STREAM-003a bổ sung conversation_id, mở isProjectLogEvent() trong conversation-stream.js để các event này không còn bị chặn khỏi SSE — cả khi live (qua eventSink/internalBus) lẫn khi replay (qua Project Log reader khi client connect/reconnect).",
+  "acceptance_criteria": [
+    "Sửa isProjectLogEvent() (hoặc logic dùng nó) để execution.*, verification.*, git.*, index.*, node.execution_step, node.command, node.command_result KHÔNG bị loại khỏi SSE nữa — miễn là event có conversation_id hợp lệ (event thiếu conversation_id vẫn bị loại, tránh rác không định tuyến được).",
+    "Live subscription (bus.subscribeAll) và replay (Project Log reader) đều áp dụng cùng quy tắc filter mới, nhất quán.",
+    "Xác nhận: dispatch 1 ticket unified-diff, mở SSE — thấy các event execution/git/verification chảy tới đúng conversation đang mở, đúng thứ tự theo sequence.",
+    "Xác nhận: đóng kết nối SSE giữa chừng, mở lại — replay hiện đầy đủ các event đã xảy ra trong lúc ngắt kết nối (đáp ứng yêu cầu 'xem lại y hệt lúc xảy ra').",
+    "Regression: agent.text_stream, builder.message.*, node.status_change vẫn hoạt động đúng như trước — không đổi hành vi các event hội thoại hiện có.",
+    "Regression: SSE ordering (FORGE-STREAM-001e) và cursor (FORGE-STREAM-002) vẫn đúng với khối lượng event tăng thêm.",
+    "Chạy đủ 5 gate: validate:schemas, lint, typecheck, build:web, git diff --check."
+  ],
+  "priority": "high",
+  "dependencies": ["FORGE-STREAM-003a"],
+  "provenance": {"source": "project_owner", "source_id": "FORGE-STREAM-003b", "created_at": "2026-08-24T12:35:00Z"}
+}

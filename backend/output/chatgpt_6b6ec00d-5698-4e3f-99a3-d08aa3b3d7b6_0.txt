@@ -1,0 +1,11 @@
+Node
+  ↓
+Browser / Claude.ai
+  ↓
+đăng nhập account của bạn
+  ↓
+gửi message
+  ↓
+Claude streaming
+  ↓
+Node đọc stream

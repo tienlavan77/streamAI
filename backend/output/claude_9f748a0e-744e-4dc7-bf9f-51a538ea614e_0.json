@@ -1,0 +1,20 @@
+{
+  "id": "FORGE-STREAM-003",
+  "project_id": "PROJECT-NODEFORGE",
+  "roadmap_id": "ROADMAP-NODEFORGE",
+  "sprint_id": "SPRINT-FORGE-STREAM-003",
+  "title": "Mở rộng SSE để phát execution/git/verification/index events real-time lên UI chat",
+  "objective": "Hiện SSE chỉ mang event hội thoại (isProjectLogEvent() lọc bỏ execution/git/verification/index). Owner muốn thấy toàn bộ flow (execution_step, command/command_result, git ops, verification, index) chảy real-time trên UI chat, giống trải nghiệm xem qua terminal builder-ex. Cần vá conversation_id còn thiếu và bỏ/nới bộ lọc isProjectLogEvent() cho các loại event này.",
+  "acceptance_criteria": [
+    "Vá node.execution_step (execution-layer.js:42) để có conversation_id trong payload — lấy từ context ticket/task hiện có (đã có sẵn từ FORGE-LOG-001e, chỉ cần đảm bảo cùng field cũng được gắn vào event gửi qua eventSink cho SSE).",
+    "Vá node.command_result (start-control-api.mjs:212) tương tự — thêm conversation_id.",
+    "Sửa isProjectLogEvent() trong conversation-stream.js: các event execution.*, verification.*, git.*, index.*, node.execution_step, node.command, node.command_result KHÔNG còn bị loại khỏi SSE nữa (miễn là có conversation_id hợp lệ để định tuyến).",
+    "UI chat hiển thị các event này real-time theo đúng thứ tự (dùng sequence đã có từ FORGE-LOG-001i0), dễ đọc — không đổ JSON thô (áp dụng cùng nguyên tắc hiển thị như FORGE-UI-040).",
+    "Test: dispatch 1 ticket unified-diff, xác nhận UI chat hiện đầy đủ: dispatch → execution_step (verifyChecksum, apply...) → command_result → git status/add/commit → done, tất cả real-time, không phải chỉ tóm tắt cuối.",
+    "Regression: SSE replay/cursor (FORGE-STREAM-002) và ordering (FORGE-STREAM-001e) vẫn hoạt động đúng với khối lượng event tăng thêm.",
+    "Chạy đủ 5 gate: validate:schemas, lint, typecheck, build:web, git diff --check."
+  ],
+  "priority": "high",
+  "dependencies": [],
+  "provenance": {"source": "project_owner", "source_id": "FORGE-STREAM-003", "created_at": "2026-08-24T11:20:00Z"}
+}
